@@ -16,20 +16,23 @@ function Todos() {
     getTodos().then((todos) => setTodos(todos));
   }, [setTodos]);
 
+  function updateTodoState(id, newTodo) {
+    const newTodos = [...todos];
+    const modifiedTodoIndex = newTodos.findIndex((todo) => todo.id === id);
+    newTodos[modifiedTodoIndex] = {
+      ...newTodo,
+    };
+    setTodos(newTodos);
+  }
+
   function handleAddTodo(text) {
     createTodo(text).then((todo) => setTodos([...todos, todo]));
   }
 
   function handleChangeTodoCompleted(id) {
     const todo = todos.find((todo) => todo.id === id);
-    updateTodo(id, { completed: !todo.completed }).then(() => {
-      const newTodos = [...todos];
-      const modifiedTodoIndex = newTodos.findIndex((todo) => todo.id === id);
-      newTodos[modifiedTodoIndex] = {
-        ...newTodos[modifiedTodoIndex],
-        completed: !newTodos[modifiedTodoIndex].completed,
-      };
-      setTodos(newTodos);
+    updateTodo(id, { completed: !todo.completed }).then((newTodo) => {
+      updateTodoState(id, newTodo);
     });
   }
 

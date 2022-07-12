@@ -23,7 +23,7 @@ export function updateTodo(id, todo = {}) {
     },
     method: "PUT",
     body: JSON.stringify(todo),
-  });
+  }).then((response) => response.json());
 }
 
 export function deleteTodo(id) {

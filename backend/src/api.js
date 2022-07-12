@@ -58,12 +58,20 @@ app.put('/:id', async (req, res) => {
     return;
   }
 
-  await database.client.db('todos').collection('todos').updateOne(
+  await database.client.db('todos').collection('todos').findOneAndUpdate(
     { id },
     { $set: { completed } },
+    {returnDocument: "after", returnOriginal: false},
+    (err, doc) => {
+      if (!err) {
+        res.status(200);
+        res.json(doc.value);
+      } else { 
+        res.status(400);
+        res.json({ message: err });
+      }
+    } 
   );
-  res.status(200);
-  res.end();
 });
 
 app.delete('/:id', async (req, res) => {
