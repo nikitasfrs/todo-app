@@ -1,5 +1,5 @@
 import { Paper, Box } from "@mui/material";
-import TodosCard from "../TodosCard";
+import TodosCard from "./TodosCard";
 
 function TodosList({ todos, onChangeTodoCompleted, onDeleteTodo }) {
   return todos.length > 0 ? (
@@ -7,6 +7,7 @@ function TodosList({ todos, onChangeTodoCompleted, onDeleteTodo }) {
       <Box display="flex" flexDirection="column" alignItems="stretch">
         {todos.map(({ id, text, completed }) => (
           <TodosCard
+            key={id}
             id={id}
             text={text}
             completed={completed}
