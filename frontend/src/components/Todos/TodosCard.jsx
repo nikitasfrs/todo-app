@@ -58,7 +58,12 @@ function TodosCard({
       </Box>
       <Box mr={1}>
         {dueDate && (
-          <Typography variant="body1">Due date: {dueDate}</Typography>
+          <Typography
+            className={completed ? classes.todoTextCompleted : ""}
+            variant="body1"
+          >
+            Due date: {dueDate}
+          </Typography>
         )}
       </Box>
       <Button

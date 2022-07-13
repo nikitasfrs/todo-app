@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import TodosInput from "./TodosInput";
 import TodosList from "./TodosList";
+import TodosError from "./TodosError";
 import {
   getTodos,
   createTodo,
@@ -14,13 +15,12 @@ import {
   deleteTodo,
 } from "../../services/todos.service";
 
-function getCurrentDate() {
-  return new Date().toJSON().slice(0, 10);
-}
+import { getCurrentDate } from "../../util";
 
 function Todos() {
   const [todos, setTodos] = useState([]);
   const [filterToday, setFilterToday] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     getTodos({ dueDate: filterToday ? getCurrentDate() : "" }).then((todos) =>
@@ -37,19 +37,32 @@ function Todos() {
     setTodos(newTodos);
   }
 
+  function dispatchRequest(request) {
+    setMessage("");
+    return request.catch((err) => {
+      const message = err.message ? err.message : err;
+      setMessage(message);
+      return Promise.reject(message);
+    });
+  }
+
   function handleAddTodo(opt) {
-    createTodo(opt).then((todo) => setTodos([...todos, todo]));
+    dispatchRequest(createTodo(opt)).then((todo) => setTodos([...todos, todo]));
   }
 
   function handleChangeTodoCompleted(id) {
     const todo = todos.find((todo) => todo.id === id);
-    updateTodo(id, { completed: !todo.completed }).then((newTodo) => {
-      updateTodoState(id, newTodo);
-    });
+    dispatchRequest(updateTodo(id, { completed: !todo.completed })).then(
+      (newTodo) => {
+        updateTodoState(id, newTodo);
+      }
+    );
   }
 
   function handleDeleteTodo(id) {
-    deleteTodo(id).then(() => setTodos(todos.filter((todo) => todo.id !== id)));
+    dispatchRequest(deleteTodo(id)).then(() =>
+      setTodos(todos.filter((todo) => todo.id !== id))
+    );
   }
 
   return (
@@ -57,6 +70,7 @@ function Todos() {
       <Typography variant="h3" component="h3" gutterBottom>
         Todos
       </Typography>
+      <TodosError message={message} />
       <TodosInput onAddTodo={handleAddTodo} currentDate={getCurrentDate()} />
       <FormControlLabel
         label="Show only tasks due today"
