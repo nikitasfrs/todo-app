@@ -28,13 +28,15 @@ app.use(express.urlencoded({ extended: false }));
 
 app.get('/', async (req, res) => {
   const todos = database.client.db('todos').collection('todos');
-  const response = await todos.find({}).toArray();
+  const {dueDate} = req.query;
+  const filters = dueDate ? {dueDate: {$eq: dueDate}} : {};
+  const response = await todos.find(filters).toArray();
   res.status(200);
   res.json(response);
 });
 
 app.post('/', async (req, res) => {
-  const { text } = req.body;
+  const { text, dueDate } = req.body;
 
   if (typeof text !== 'string') {
     res.status(400);
@@ -42,7 +44,7 @@ app.post('/', async (req, res) => {
     return;
   }
 
-  const todo = { id: generateId(), text, completed: false };
+  const todo = { id: generateId(), text, dueDate, completed: false };
   await database.client.db('todos').collection('todos').insertOne(todo);
   res.status(201);
   res.json(todo);
