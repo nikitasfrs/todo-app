@@ -37,13 +37,11 @@ app.get('/', async (req, res) => {
 
 app.post('/', async (req, res) => {
   const { text, dueDate } = req.body;
-
   if (typeof text !== 'string') {
     res.status(400);
     res.json({ message: "invalid 'text' expected string" });
     return;
   }
-
   const todo = { id: generateId(), text, dueDate, completed: false };
   await database.client.db('todos').collection('todos').insertOne(todo);
   res.status(201);
@@ -53,13 +51,11 @@ app.post('/', async (req, res) => {
 app.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
-
   if (typeof completed !== 'boolean') {
     res.status(400);
     res.json({ message: "invalid 'completed' expected boolean" });
     return;
   }
-
   await database.client.db('todos').collection('todos').findOneAndUpdate(
     { id },
     { $set: { completed } },

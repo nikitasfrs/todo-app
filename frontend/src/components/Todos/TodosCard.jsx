@@ -38,6 +38,7 @@ function TodosCard({
       display="flex"
       flexDirection="row"
       alignItems="center"
+      aria-label="todo-card"
       pr={1}
       className={classes.todoContainer}
     >
@@ -67,6 +68,7 @@ function TodosCard({
         )}
       </Box>
       <Button
+        aria-label="delete button"
         className={classes.deleteTodo}
         startIcon={<Icon>delete</Icon>}
         onClick={() => onDeleteTodo(id)}

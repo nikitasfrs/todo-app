@@ -1,9 +1,9 @@
 export function request(url, opt = {}) {
   return fetch(url, opt).then((response) => {
-    const isJson = (response.headers.get("content-type") || "").includes(
-      "application/json"
-    );
-    if (isJson) {
+    const responseIsJson = (
+      response.headers.get("content-type") || ""
+    ).includes("application/json");
+    if (responseIsJson) {
       return response.json().then((json) => {
         return response.ok ? json : Promise.reject(json);
       });
