@@ -18,5 +18,6 @@ http://localhost:3000
 
 ## TODO
 
+- Switch from mongodb to Postgres
 - Incorporate TypeScript
 - Infinite load capability
