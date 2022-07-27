@@ -15,3 +15,8 @@ To start the application use docker compose:
 
 Application will then be accessible in the following URL, locally:
 http://localhost:3000
+
+## TODO
+
+- Incorporate TypeScript
+- Infinite load capability
