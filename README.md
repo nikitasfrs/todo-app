@@ -4,7 +4,7 @@ Full-stack web application to manage a list of to do items.
 
 ## Infrastructure
 
-1. Frontendx - Single Page Application built with: React and Material UI.
+1. Frontend - Single Page Application built with: React and Material UI.
 2. Backend - HTTP REST API built with Node.js, Express and MongoDB.
 
 ## How to run
@@ -18,6 +18,6 @@ http://localhost:3000
 
 ## TODO
 
-- Switch from mongodb to Postgres
-- Incorporate TypeScript
+- Switch to Postgres
+- Use TypeScript
 - Infinite load capability
